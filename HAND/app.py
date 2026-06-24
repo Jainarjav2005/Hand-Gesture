@@ -385,14 +385,19 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.get("/")
 def get_home():
     # If the static file exists, return it, otherwise return a simple bootstrap HTML
-    static_index = os.path.join("static", "index.html")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    static_index = os.path.join(BASE_DIR, "static", "index.html")
     if os.path.exists(static_index):
         with open(static_index, "r", encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
     return HTMLResponse(content="<h1>Frontend files not created yet. Please create static/index.html</h1>")
 
 # Mount static folder
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=os.path.join(BASE_DIR, "static")),
+    name="static"
+)
 
 if __name__ == "__main__":
     import uvicorn
