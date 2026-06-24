@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER HANDS - Premium AI Gesture Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- TOP HEADER -->
+        <header class="app-header">
+            <div class="header-logo">
+                <div class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="logo-text">
+                    <h1>AETHER HANDS</h1>
+                    <p>AI Gesture Tracking & Telemetry Hub</p>
+                </div>
+            </div>
+            
+            <div class="header-stats">
+                <div class="stat-badge">
+                    <span class="badge-label">Latency</span>
+                    <span class="badge-value" id="latency-val">-- ms</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="badge-label">Backend FPS</span>
+                    <span class="badge-value" id="fps-val">--</span>
+                </div>
+                <div class="status-indicator-wrapper">
+                    <div class="status-indicator" id="status-dot"></div>
+                    <span class="status-text" id="status-text">Connecting...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT GRID -->
+        <main class="app-main">
+            
+            <!-- LEFT PANEL: CONTROLS & CHEATSHEET -->
+            <section class="panel-left">
+                <!-- Device Control Card -->
+                <div class="glass-card controls-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-sliders header-icon"></i>
+                        <h2>Control Panel</h2>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">System Control</label>
+                        <button class="btn btn-primary" id="toggle-cam-btn">
+                            <i class="fa-solid fa-video"></i> Start Camera
+                        </button>
+                    </div>
+
+                    <div class="control-group" style="display: none;">
+                        <label for="camera-select" class="control-label">Webcam Device</label>
+                        <div class="select-wrapper">
+                            <select id="camera-select">
+                                <option value="0">Default Camera (Index 0)</option>
+                                <option value="1">Secondary Camera (Index 1)</option>
+                                <option value="2">External Camera (Index 2)</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-arrow"></i>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Settings</label>
+                        <div class="toggle-switch">
+                            <span class="switch-label">Overlay Landmarks</span>
+                            <label class="switch">
+                                <input type="checkbox" id="landmarks-toggle" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gesture Reference card -->
+                <div class="glass-card gesture-guide-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-hand-spock header-icon"></i>
+                        <h2>Gesture Directory</h2>
+                    </div>
+                    <div class="gesture-grid">
+                        <div class="guide-item" data-gesture="👍 GOOD LUCK / LIKE">
+                            <span class="guide-emoji">👍</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Like / Luck</span>
+                                <span class="guide-mapping">Prev Slide / Vol -</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="✊ POWER / NO">
+                            <span class="guide-emoji">✊</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Power / Fist</span>
+                                <span class="guide-mapping">Play Video</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="☝️ NUMBER ONE">
+                            <span class="guide-emoji">☝️</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Number One</span>
+                                <span class="guide-mapping">Detect Only</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="✌️ VICTORY / PEACE">
+                            <span class="guide-emoji">✌️</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Victory / Peace</span>
+                                <span class="guide-mapping">Next Slide / Scroll</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="🤟 I LOVE YOU">
+                            <span class="guide-emoji">🤟</span>
+                            <div class="guide-info">
+                                <span class="guide-name">I Love You</span>
+                                <span class="guide-mapping">Unmapped</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="✋ HELLO / STOP">
+                            <span class="guide-emoji">✋</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Hello / Stop</span>
+                                <span class="guide-mapping">Pause Video / Presentation</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="🤘 ROCK">
+                            <span class="guide-emoji">🤘</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Rock</span>
+                                <span class="guide-mapping">Vol Up / FastForward</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="👌 OK / PERFECT">
+                            <span class="guide-emoji">👌</span>
+                            <div class="guide-info">
+                                <span class="guide-name">OK / Perfect</span>
+                                <span class="guide-mapping">Unmapped</span>
+                            </div>
+                        </div>
+                        <div class="guide-item" data-gesture="👎 DISLIKE / NO">
+                            <span class="guide-emoji">👎</span>
+                            <div class="guide-info">
+                                <span class="guide-name">Dislike / Pinky</span>
+                                <span class="guide-mapping">Vol Down / Rewind</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CENTER PANEL: LIVE VIDEO & TELEMETRY -->
+            <section class="panel-center">
+                <!-- Video Feed Card -->
+                <div class="glass-card video-card">
+                    <div class="video-container">
+                        <img id="video-stream" src="" alt="Video Stream" class="video-feed" style="display: none;">
+                    </div>
+                </div>
+
+                <!-- Active Gesture Telemetry Dashboard -->
+                <div class="glass-card telemetry-card">
+                    <div class="telemetry-grid">
+                        <!-- Active Gesture Box -->
+                        <div class="telemetry-box active-gesture-box">
+                            <span class="box-label">Active Gesture</span>
+                            <div class="gesture-display">
+                                <span class="active-emoji" id="active-emoji">🤖</span>
+                                <span class="active-name" id="active-name">No Hand Detected</span>
+                            </div>
+                        </div>
+
+                        <!-- Finger Telemetry -->
+                        <div class="telemetry-box fingers-box">
+                            <span class="box-label">Fingers State</span>
+                            <div class="fingers-indicator-container">
+                                <div class="finger-status-dot" id="finger-0">
+                                    <span class="finger-name">THM</span>
+                                    <div class="dot-indicator"></div>
+                                </div>
+                                <div class="finger-status-dot" id="finger-1">
+                                    <span class="finger-name">IDX</span>
+                                    <div class="dot-indicator"></div>
+                                </div>
+                                <div class="finger-status-dot" id="finger-2">
+                                    <span class="finger-name">MID</span>
+                                    <div class="dot-indicator"></div>
+                                </div>
+                                <div class="finger-status-dot" id="finger-3">
+                                    <span class="finger-name">RNG</span>
+                                    <div class="dot-indicator"></div>
+                                </div>
+                                <div class="finger-status-dot" id="finger-4">
+                                    <span class="finger-name">PNK</span>
+                                    <div class="dot-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="finger-count-display">
+                                <span class="count-value" id="finger-count">0</span>
+                                <span class="count-label">Fingers Up</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: INTERACTIVE APP SIMULATOR & TIMELINE -->
+            <section class="panel-right">
+                
+                <!-- Futuristic Neon Gesture Control Sticker Showcase -->
+                <div class="glass-card artwork-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-microchip header-icon"></i>
+                        <h2>Aether System Control</h2>
+                    </div>
+                    <div class="artwork-showcase-container">
+                        <img src="/static/gesture_art_sticker.png?v=1" alt="High-Tech Gesture Art" class="large-art-sticker">
+                        <div class="artwork-hud-scanline"></div>
+                        
+                        <!-- Premium English Quotes Container -->
+                        <div class="artwork-quotes-container">
+                            <i class="fa-solid fa-quote-left quote-icon"></i>
+                            <p class="artwork-quote-text" id="artwork-quote-text">"The human hand is the cutting edge of the mind."</p>
+                            <span class="artwork-quote-author" id="artwork-quote-author">— Jacob Bronowski</span>
+                        </div>
+
+                        <div class="artwork-status-badge">
+                            <span class="pulse-ring"></span>
+                            <span class="status-label">A.I. Engine Active</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Welcome / Tutorial Modal -->
+    <div class="modal-overlay" id="welcome-modal">
+        <div class="glass-card modal-card">
+            <div class="modal-header-accent">
+                <div class="modal-logo-container">
+                    <i class="fa-solid fa-wand-magic-sparkles modal-logo-icon"></i>
+                </div>
+                <h2>AETHER HANDS</h2>
+                <p>AI Gesture Tracking Dashboard</p>
+            </div>
+            
+            <div class="modal-body-wrapper" id="modal-welcome-body">
+                <h3>Select Onboarding Mode</h3>
+                <p class="modal-intro">Control your presentation deck or media player with simple hand signs in front of your camera. How would you like to start?</p>
+                <div class="modal-buttons">
+                    <button class="btn btn-primary" id="watch-tutorial-btn">
+                        <i class="fa-solid fa-play"></i> Watch Video Tutorial
+                    </button>
+                    <button class="btn btn-danger-alt" id="skip-tutorial-btn">
+                        🚀 Try Directly
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tutorial Video View (hidden by default) -->
+            <div class="modal-body-wrapper" id="modal-video-body" style="display: none; text-align: left;">
+                <h3>Gesture Tutorial Guide</h3>
+                <p class="modal-intro" style="margin-bottom: 16px;">Perform the gestures as shown below to control interactive elements:</p>
+                
+                <div class="tutorial-layout">
+                    <!-- Left: Camera Inset Video -->
+                    <div class="tutorial-video-panel">
+                        <div class="tutorial-video-container">
+                            <video id="tutorial-video" class="tutorial-video" loop muted playsinline>
+                                <source src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c05c03d778d9edcf27ee98cc26e5e04b&profile_id=139&oauth2_token_id=57447761" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            
+                            <!-- Dynamic Overlay Badge showing the gesture sign inside the tutorial small screen -->
+                            <div class="tutorial-video-overlay-badge" id="tutorial-overlay-badge">
+                                <span class="overlay-badge-emoji" id="tutorial-overlay-emoji">✌️</span>
+                                <div class="overlay-badge-text">
+                                    <span class="overlay-badge-name" id="tutorial-overlay-name">Victory</span>
+                                    <span class="overlay-badge-hindi" id="tutorial-overlay-hindi">विक्ट्री (जीत)</span>
+                                </div>
+                            </div>
+
+                            <div class="mock-screen-hud">
+                                <div class="rec-dot"></div>
+                                <span>TUTORIAL CAM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Gesture Checklist -->
+                    <div class="tutorial-steps-panel">
+                        <div class="step-row" data-step-index="0" style="cursor: pointer;">
+                            <span class="step-row-emoji">✌️</span>
+                            <div class="step-row-info">
+                                <span class="step-row-name">Victory</span>
+                                <span class="step-row-action">Next Slide / Scroll</span>
+                            </div>
+                        </div>
+                        <div class="step-row" data-step-index="1" style="cursor: pointer;">
+                            <span class="step-row-emoji">👍</span>
+                            <div class="step-row-info">
+                                <span class="step-row-name">like</span>
+                                <span class="step-row-action">Prev Slide</span>
+                            </div>
+                        </div>
+                        <div class="step-row" data-step-index="2" style="cursor: pointer;">
+                            <span class="step-row-emoji">✊</span>
+                            <div class="step-row-info">
+                                <span class="step-row-name">power</span>
+                                <span class="step-row-action">Play Video</span>
+                            </div>
+                        </div>
+                        <div class="step-row" data-step-index="3" style="cursor: pointer;">
+                            <span class="step-row-emoji">✋</span>
+                            <div class="step-row-info">
+                                <span class="step-row-name">Open Hand hello</span>
+                                <span class="step-row-action">Pause Media / Autoplay</span>
+                            </div>
+                        </div>
+                        <div class="step-row" data-step-index="4" style="cursor: pointer;">
+                            <span class="step-row-emoji">🤘 / 👎</span>
+                            <div class="step-row-info">
+                                <span class="step-row-name">Rock Sign / Dislike</span>
+                                <span class="step-row-action">Volume Up / Down</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="finish-tutorial-btn" style="width: 100%; margin-top: 16px;">
+                    Start Controlling
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
